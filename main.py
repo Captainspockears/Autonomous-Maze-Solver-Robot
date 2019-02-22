@@ -1,39 +1,7 @@
-
-
 import numpy as np
+import time
 import random
-import RPi.GPIO as GPIO
-from imutils.video import VideoStream
-from pyzbar import pyzbar
-import argparse
-import datetime
-import imutils
 import time
-import cv2
-import sys
-import time
-
-
-GPIO.setmode(GPIO.BCM)
-
-# set GPIO Pins
-
-GPIO_TRIGGER1 = 2
-GPIO_TRIGGER2 = 3
-GPIO_TRIGGER3 = 1
-GPIO_ECHO1 = 14
-GPIO_ECHO2 = 15
-GPIO_ECHO3 = 7
-    #
-# Initialization functions
-
-GPIO.setup(GPIO_TRIGGER1, GPIO.OUT)
-GPIO.setup(GPIO_ECHO1, GPIO.IN)
-GPIO.setup(GPIO_TRIGGER2, GPIO.OUT)
-GPIO.setup(GPIO_ECHO2, GPIO.IN)
-GPIO.setup(GPIO_TRIGGER3, GPIO.OUT)
-GPIO.setup(GPIO_ECHO3, GPIO.IN)
-
 
 # Classes
 
@@ -93,10 +61,10 @@ class Stack:
     def size(self):
         return len(self.items)
 
-#    def printstack(self):
-#        for i in range(0, self.size()):
-#            print(self.items[i].value, end = " ")
-#        print(" ")
+    def print(self):
+        for i in range(0, self.size()):
+            print(self.items[i].value, end=" ")
+        print("")
 
     def copy(self, cp):
         for i in range(0, cp.size()):
@@ -170,311 +138,6 @@ blockCount2 = 0
 botPos = Position(0, 0)
 botOrientation = 1
 bot = Bot(botPos, botOrientation)
-
-# adi's international(halli) code
-
-# GPIO Mode (BOARD / BCM)
-
-#GPIO.setmode(GPIO.BCM)
-#
-## set GPIO Pins
-#
-#GPIO_TRIGGER1 = 2
-#GPIO_TRIGGER2 = 3
-#GPIO_TRIGGER3 = 1
-#GPIO_ECHO1 = 14
-#GPIO_ECHO2 = 15
-#GPIO_ECHO3 = 7
-#    #
-## Initialization functions
-#
-#GPIO.setup(GPIO_TRIGGER1, GPIO.OUT)
-#GPIO.setup(GPIO_ECHO1, GPIO.IN)
-#GPIO.setup(GPIO_TRIGGER2, GPIO.OUT)
-#GPIO.setup(GPIO_ECHO2, GPIO.IN)
-#GPIO.setup(GPIO_TRIGGER3, GPIO.OUT)
-#GPIO.setup(GPIO_ECHO3, GPIO.IN)
-
-
-def distance(num):
-    GPIO.setmode(GPIO.BCM)
-
-# set GPIO Pins
-
-    GPIO_TRIGGER1 = 2
-    GPIO_TRIGGER2 = 3
-    GPIO_TRIGGER3 = 1
-    GPIO_ECHO1 = 14
-    GPIO_ECHO2 = 15
-    GPIO_ECHO3 = 7
-        #
-    # Initialization functions
-    
-    GPIO.setup(GPIO_TRIGGER1, GPIO.OUT)
-    GPIO.setup(GPIO_ECHO1, GPIO.IN)
-    GPIO.setup(GPIO_TRIGGER2, GPIO.OUT)
-    GPIO.setup(GPIO_ECHO2, GPIO.IN)
-    GPIO.setup(GPIO_TRIGGER3, GPIO.OUT)
-    GPIO.setup(GPIO_ECHO3, GPIO.IN)
-    # set Trigger to HIGH
-    
-    if num == 1:
-        GPIO.output(GPIO_TRIGGER1, True)
-
-        # set Trigger after 0.01ms to LOW
-        time.sleep(0.1)
-        GPIO.output(GPIO_TRIGGER1, False)
-
-        StartTime = time.time()
-        StopTime = time.time()
-
-        # save StartTime
-        while GPIO.input(GPIO_ECHO1) == 0:
-            StartTime = time.time()
-
-        # save time of arrival
-        while GPIO.input(GPIO_ECHO1) == 1:
-            StopTime = time.time()
-
-        # time difference between start and arrival
-        TimeElapsed = StopTime - StartTime
-        # multiply with the sonic speed (34300 cm/s)
-        # and divide by 2, because there and back
-        distance = (TimeElapsed * 34300) / 2
-
-    if num == 2:
-        GPIO.output(GPIO_TRIGGER2, True)
-
-        # set Trigger after 0.01ms to LOW
-        time.sleep(0.1)
-        GPIO.output(GPIO_TRIGGER2, False)
-
-        StartTime = time.time()
-        StopTime = time.time()
-
-        # save StartTime
-        while GPIO.input(GPIO_ECHO2) == 0:
-            StartTime = time.time()
-
-        # save time of arrival
-        while GPIO.input(GPIO_ECHO2) == 1:
-            StopTime = time.time()
-
-        # time difference between start and arrival
-        TimeElapsed = StopTime - StartTime
-        # multiply with the sonic speed (34300 cm/s)
-        # and divide by 2, because there and back
-        distance = (TimeElapsed * 34300) / 2
-
-    if num == 3:
-        GPIO.output(GPIO_TRIGGER3, True)
- 
-    # set Trigger after 0.01ms to LOW
-        time.sleep(1)
-        GPIO.output(GPIO_TRIGGER3, False)
- 
-        StartTime = time.time()
-        StopTime = time.time()
- 
-    # save StartTime
-        while GPIO.input(GPIO_ECHO3) == 0:
-            StartTime = time.time()
- 
-    # save time of arrival
-        while GPIO.input(GPIO_ECHO3) == 1:
-            StopTime = time.time()
- 
-    # time difference between start and arrival
-        TimeElapsed = StopTime - StartTime
-    # multiply with the sonic speed (34300 cm/s)
-    # and divide by 2, because there and back
-        distance = (TimeElapsed * 34300) / 2
-        
-        
-
-        print("caught ", distance)
-
-    return distance
-
-
-# motor functions
-
-def init():
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setup(9, GPIO.OUT)
-    GPIO.setup(10, GPIO.OUT)
-    GPIO.setup(25, GPIO.OUT)
-    GPIO.setup(8, GPIO.OUT)
-    GPIO.setup(5, GPIO.OUT)
-    GPIO.setup(6, GPIO.OUT)
-    GPIO.setup(12, GPIO.OUT)
-    GPIO.setup(13, GPIO.OUT)
-
-
-def forward(tf):
-    init()
-    GPIO.output(9, False)
-    GPIO.output(25, False)
-    GPIO.output(5, False)
-    GPIO.output(12, False)
-    GPIO.output(10, True)
-    GPIO.output(8, True)
-    GPIO.output(6, True)
-    GPIO.output(13, True)
-
-    time.sleep(tf)
-    GPIO.cleanup()
-
-
-def reverse(tf):
-    init()
-    GPIO.output(9, True)
-    GPIO.output(25, True)
-    GPIO.output(5, True)
-    GPIO.output(12, True)
-    GPIO.output(10, False)
-    GPIO.output(8, False)
-    GPIO.output(6, False)
-    GPIO.output(13, False)
-    time.sleep(tf)
-
-    GPIO.cleanup()
-
-
-def right(tf):
-    init()
-
-    GPIO.output(9, False)
-    GPIO.output(10, True)
-    GPIO.output(25, False)
-    GPIO.output(8, True)
-    time.sleep(tf)
-
-    GPIO.cleanup()
-
-
-def left(tf):
-    init()
-    GPIO.output(9, True)
-    GPIO.output(10, False)
-    GPIO.output(25, True)
-    GPIO.output(8, False)
-    GPIO.output(5, False)
-    GPIO.output(6, True)
-    GPIO.output(12, False)
-    GPIO.output(13, True)
-    time.sleep(tf)
-    GPIO.cleanup()
-
-
-# sensor functions
-
-def wallADetected():  # left ultrasonic
-    
-    left_wall = distance(3)
-    print(distance)
-
-    if left_wall <= 5:
-        return True
-    return False
-
-
-def wallBDetected():  # front ultrasonic
-    front_wall = distance(2)
-
-    if front_wall <= 5.5:
-        return True
-    return False
-
-
-def wallCDetected():  # right ultrasonic
-    right_wall = distance(1)
-
-    if right_wall <= 5:
-        return True
-    return False
-
-
-def colorBlockDetected():
-    return False
-
-
-def qrCodeScanned():
-    # construct the argument parser and parse the arguments
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-o", "--output", type=str, default="barcodes.csv",
-                    help="path to output CSV file containing barcodes")
-    args = vars(ap.parse_args())
-    # initialize the video stream and allow the camera sensor to warm up
-    print("[INFO] starting video stream...")
-
-    # vs = VideoStream(src=0).start()
-    vs = VideoStream(usePiCamera=True).start()
-    time.sleep(2.0)
-
-    # open the output CSV file for writing and initialize the set of
-    # barcodes found thus far
-    csv = open(args["output"], "w")
-    found = set()
-
-    # loop over the frames from the video stream
-    for i in range(0, 10):
-        # grab the frame from the threaded video stream and resize it to
-        # have a maximum width of 400 pixels
-        frame = vs.read()
-        frame = imutils.resize(frame, width=400)
-
-        # find the barcodes in the frame and decode each of the barcodes
-        barcodes = pyzbar.decode(frame)
-
-        # OpenCV barcode and QR code scanner with ZBarPython
-
-        # loop over the detected barcodes
-        for barcode in barcodes:
-            # extract the bounding box location of the barcode and draw
-            # the bounding box surrounding the barcode on the image
-            (x, y, w, h) = barcode.rect
-            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
-
-            # the barcode data is a bytes object so if we want to draw it
-            # on our output image we need to convert it to a string first
-            barcodeData = barcode.data.decode("utf-8")
-            barcodeType = barcode.type
-
-            # draw the barcode data and barcode type on the image
-            text = "{} ({})".format(barcodeData, barcodeType)
-            cv2.putText(frame, text, (x, y - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-
-            print(text)
-
-            str(text)
-            if text == "1" or text == "2" or text == "3" or text == "4":
-                return True
-
-            # if the barcode text is currently not in our CSV file, write
-            # the timestamp + barcode to disk and update the set
-            if barcodeData not in found:
-                csv.write("{},{}\n".format(datetime.datetime.now(),
-                                           barcodeData))
-                csv.flush()
-                found.add(barcodeData)
-
-        # show the output frame
-        cv2.imshow("Barcode Scanner", frame)
-        key = cv2.waitKey(1) & 0xFF
-
-        # if the `q` key was pressed, break from the loop
-        if key == ord("q"):
-            break
-
-    # close the output CSV file do a bit of cleanup
-    print("[INFO] cleaning up...")
-    csv.close()
-    cv2.destroyAllWindows()
-    vs.stop()
-
-    return False
 
 
 # matrix functions
@@ -642,9 +305,9 @@ def printMaze(mazeValue, botValue):
     while y >= 0:
         for i in range(0, 9):
             if mazeValue[i][y].wall1:
-                print("{}{}{}".format(" ", "-", " "), end=" ")
+                print("{}{}{}".format(" ", "-", " "), end="")
             else:
-                print("{}{}{}".format(" ", " ", " "), end=" ")
+                print("{}{}{}".format(" ", " ", " "), end="")
         print("")
         while x <= 8:
             if mazeValue[x][y] is None:
@@ -724,7 +387,6 @@ def printMaze(mazeValue, botValue):
         y = y - 1
         x = 0
         print("")
-
 
 # algorithm functions
 
@@ -883,57 +545,12 @@ def updateWalls(map, bot):
     return True
 
 
-def changeOrientation(finalOrientation):
-    print(bot.orientation, " ", finalOrientation)
-    if bot.orientation == 1:
-        if finalOrientation == 1:
-            return 0
-        if finalOrientation == 2:
-            right(2)  # 90 degrees
-        if finalOrientation == 3:
-            right(1)  # 180 degrees
-        if finalOrientation == 4:
-            left(2)  # - 90 degrees
-    if bot.orientation == 2:
-        if finalOrientation == 1:
-            left(2)  # - 90 degrees
-        if finalOrientation == 2:
-            return 0
-        if finalOrientation == 3:
-            right(2)  # 90 degrees
-        if finalOrientation == 4:
-            right(1)  # 180 degrees
-    if bot.orientation == 3:
-        if finalOrientation == 1:
-            right(1)  # 180 degrees
-        if finalOrientation == 2:
-            left(2)  # - 90 degrees
-        if finalOrientation == 3:
-            return 0
-        if finalOrientation == 4:
-            right(2)  # 90 degrees
-    if bot.orientation == 4:
-        if finalOrientation == 1:
-            right(2)  # 90 degrees
-        if finalOrientation == 2:
-            right(1)  # 180 degrees
-        if finalOrientation == 3:
-            left(2)  # - 90 degrees
-        if finalOrientation == 4:
-            return 0
-
-
-def turnEnginesOn():
-    forward(2)
-
-
 def moveToLowerValue(map):
+
     openNeighbour = getOpenNeighbour(map, bot.pos)  # dumps em frickin open neighbours in a stack
     minOpenNeighbour = getMinOpenNeighbour(openNeighbour, bot)  # finds the minimum open neighbour from the stack
     orientation = getOrientation(bot.pos, minOpenNeighbour.pos)  # finds the new orientation of the bot
     bot.move(minOpenNeighbour.pos, orientation)  # move the bot to the new node
-    changeOrientation(orientation)
-    turnEnginesOn()
 
 
 def botMove(dest, map):
@@ -1030,6 +647,7 @@ def floodFillForExploreY(dest, mapY):
     while not Position.checkPos(bot.pos, dest):
 
         if colorBlockDetected():
+            blockCount2 = blockCount2 + 1
             if bot.orientation == 1:
                 block3.x = bot.pos.x
                 block3.y = bot.pos.y + 1
@@ -1046,6 +664,7 @@ def floodFillForExploreY(dest, mapY):
                 time.sleep(1)
 
         if qrCodeScanned():
+            blockCount2 = blockCount2 + 1
             if bot.orientation == 1:
                 qrBLock2.x = bot.pos.x
                 qrBLock2.y = bot.pos.y + 1
@@ -1221,6 +840,28 @@ def gotoX():
     map = buildMatrix(dest, 3)
     floodFill(dest, map)
 
+# sensor functions
+
+def wallADetected():  # left ultrasonic
+
+    return False
+
+
+def wallBDetected():  # front ultrasonic
+    return False
+
+
+def wallCDetected():  # right ultrasonic
+    return False
+
+
+def colorBlockDetected():
+    return False
+
+
+def qrCodeScanned():
+    return False
+
 
 # The start of the program
 
@@ -1234,9 +875,9 @@ map6 = np.empty((9, 9), dtype=object)
 # test run
 
 # find block positions
-exploreMapX()  # Explore left side of map and find block 1 and block 2
-gotoY()  # Go to (4,4)
-exploreMapY()  # Explore right side of map and find block 3 and qr-block 2
+exploreMapX()   # Explore left side of map and find block 1 and block 2
+gotoY()         # Go to (4,4)
+exploreMapY()   # Explore right side of map and find block 3 and qr-block 2
 
 print("Initial dry run report:")
 print("Block 1: (", block1.x, ",", block1.y, ")")
@@ -1247,7 +888,7 @@ print("QR Block 2: (", qrBLock2.x, ",", qrBLock2.y, ")")
 print("Going back to start position for mapping phase...")
 print("")
 
-gotoX()  # Go to (0,0)
+gotoX()     # Go to (0,0)
 
 # find map1 - start to block 1
 map1 = buildMatrix(block1, 1)
