@@ -17,6 +17,8 @@ to specified zones outside the maze. It had to also tackle obstacles and fire a 
 team was allotted with a time limit of 8 minutes to complete all the tasks and a time limit of 5 minutes
 for a pre-run of the autonomous bot for it to learn the maze.
 
+![WhatsApp Image 2019-01-12 at 5 14 12 PM (1)](https://user-images.githubusercontent.com/46392391/55337994-5568e280-54bd-11e9-9995-7de755a03438.jpeg)
+
 ## The Autonomous Bot
 The autonomous bot that we built ran on a raspberry pi-3 board that used a python script with OpenCV.
 We built the logic on the floodfill algorithm. We used 3 ultrasonic sensors to detect the right, front and
