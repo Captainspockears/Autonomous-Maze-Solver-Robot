@@ -31,3 +31,7 @@ Drivers. We used a standard 2A power bank to power the raspberry and a set of 3 
 We first tested the program extensively on an online simulator that we had built to optimize it and fix
 bugs. Then we integrated the code into the bot and ran trials on a demo arena that we had built for
 testing in the college.
+
+![WhatsApp Image 2019-04-01 at 8 39 29 PM](https://user-images.githubusercontent.com/46392391/55338440-5d755200-54be-11e9-993a-dcf04371aa4e.jpeg)
+
+## Explanation of the program
