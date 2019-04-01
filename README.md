@@ -17,7 +17,8 @@ to specified zones outside the maze. It had to also tackle obstacles and fire a 
 team was allotted with a time limit of 8 minutes to complete all the tasks and a time limit of 5 minutes
 for a pre-run of the autonomous bot for it to learn the maze.
 
-![WhatsApp Image 2019-01-12 at 5 14 12 PM (1)](https://user-images.githubusercontent.com/46392391/55337994-5568e280-54bd-11e9-9995-7de755a03438.jpeg)
+##### The Arena
+> ![WhatsApp Image 2019-01-12 at 5 14 12 PM (1)](https://user-images.githubusercontent.com/46392391/55337994-5568e280-54bd-11e9-9995-7de755a03438.jpeg)
 
 ## The Autonomous Bot
 The autonomous bot that we built ran on a raspberry pi-3 board that used a python script with OpenCV.
@@ -32,6 +33,18 @@ We first tested the program extensively on an online simulator that we had built
 bugs. Then we integrated the code into the bot and ran trials on a demo arena that we had built for
 testing in the college.
 
-![WhatsApp Image 2019-04-01 at 8 39 29 PM](https://user-images.githubusercontent.com/46392391/55338440-5d755200-54be-11e9-993a-dcf04371aa4e.jpeg)
+##### The Autonomous Bot
+> ![WhatsApp Image 2019-04-01 at 8 39 29 PM](https://user-images.githubusercontent.com/46392391/55338440-5d755200-54be-11e9-993a-dcf04371aa4e.jpeg)
 
 ## Explanation of the program
+The project is available in 3 different branches:
+#### 1. Master Branch
+Warning: This is for the final implimentation only. 
+The main.py in this branch should only be run on a raspberry pi that has been connected to all the various electronic components. The code includes the specification of various Raspberry pins, kindly edit the pin numbers according to how you have connected them.
+> [Final Implementation](https://github.com/Captainspockears/Autonomous-Maze-Solver-Robot/blob/master/main.py)
+#### 2. Without-walls-simulation
+The main.py in this branch is used for testing. It can be run on a PC without a raspberry pi. It will display a simulation of how the robot would move in a maze that has no walls.
+> [Testing Without Walls](https://github.com/Captainspockears/Autonomous-Maze-Solver-Robot/blob/Without-walls-simulation/main.py)
+#### 3. Random-walls-simulation
+The main.py in this branch is used for testing. It can be run on a PC without a raspberry pi. It will display a simulation of how the robot would move in a maze that has walls. The walls are generated with every movement of the bot randomly. This does not work well, and a better simulator is required that constructs an entire random maze.
+> [Testing With Walls](https://github.com/Captainspockears/Autonomous-Maze-Solver-Robot/blob/Random-walls-simulation/main.py)
