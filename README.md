@@ -2,9 +2,9 @@
 The code that I wrote for the autonomous bot that I built for the International Robotics Challenge, Techfest 2018, IIT Bombay. It is a maze solving robot that uses the flood fill algorithm to navigate and map the maze.
 
 ## Table of Content
-1. About the Competetion
-2. The Autonomous Bot
-3. Explanation of the program
+1. [About the Competetion](#about-the-competetion)
+2. [The Autonomous Bot](#the-autonomous-bot)
+3. [Explanation of the program](#explanation-of-the-program)
 
 ## About the competetion
 For the competition, we were required to build two robots, a manual and autonomous bot that would
